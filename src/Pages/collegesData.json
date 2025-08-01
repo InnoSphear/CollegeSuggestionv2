@@ -1,0 +1,339 @@
+{
+  "colleges": [
+    {
+      "id": 1,
+      "name": "All India Institute of Medical Sciences, New Delhi",
+      "slug": "all-india-institute-of-medical-sciences-new-delhi",
+      "ownership": "Government",
+      "established": "1956",
+      "state": "Delhi",
+      "city": "New Delhi",
+      "category": "Medical",
+      "courses": ["MBBS", "MD", "MS", "MSc", "MDS", "MCh", "DM", "PhD"],
+      "logo": "https://via.placeholder.com/150",
+      "overview": "AIIMS Delhi is India's most prestigious medical institution offering top-tier research and patient care facilities.",
+      "coursesAndFees": [
+        {
+          "name": "MBBS",
+          "duration": "5 Years",
+          "totalFees": "₹7,640",
+          "seats": 132,
+          "level": "UG"
+        },
+        {
+          "name": "Pathology",
+          "duration": "3 Years",
+          "totalFees": "₹2,110",
+          "seats": 31,
+          "level": "PG"
+        }
+      ],
+      "placements": {
+        "averagePackage": "₹6-7 LPA",
+        "graduationPercentage": {
+          "ug": [95, 96, 94, 93],
+          "pg": [93.15, 94.50, 93.84, 93.18],
+          "years": [2019, 2020, 2021, 2022]
+        }
+      },
+      "amenities": ["Library", "Hostel", "Sports", "Hospital", "Labs"],
+      "cutoff": {
+        "mbbs": "98.5 percentile",
+        "md": "95 percentile"
+      },
+      "faculty": {
+        "total": 450,
+        "studentRatio": "1:8"
+      }
+    },
+    {
+      "id": 2,
+      "name": "Post Graduate Institute of Medical Education and Research",
+      "slug": "pgimer-chandigarh",
+      "ownership": "Government",
+      "established": "1962",
+      "state": "Chandigarh",
+      "city": "Chandigarh",
+      "category": "Medical",
+      "courses": ["MBBS", "MD", "MS", "PhD"],
+      "logo": "https://via.placeholder.com/150",
+      "overview": "PGIMER is a premier government medical research institute offering cutting-edge training and healthcare services.",
+      "coursesAndFees": [
+        {
+          "name": "MBBS",
+          "duration": "5.5 Years",
+          "totalFees": "₹15,000",
+          "seats": 100,
+          "level": "UG"
+        }
+      ],
+      "placements": {
+        "averagePackage": "₹5-6 LPA",
+        "graduationPercentage": {
+          "ug": [92, 93, 94, 95],
+          "pg": [91, 92, 93, 94],
+          "years": [2019, 2020, 2021, 2022]
+        }
+      },
+      "amenities": ["Hostel", "Library", "Labs", "Hospital"],
+      "cutoff": {
+        "mbbs": "96 percentile"
+      },
+      "faculty": {
+        "total": 380,
+        "studentRatio": "1:10"
+      }
+    },
+    {
+      "id": 3,
+      "name": "Maulana Azad Medical College",
+      "slug": "maulana-azad-medical-college-delhi",
+      "ownership": "Government",
+      "established": "1958",
+      "state": "Delhi",
+      "city": "New Delhi",
+      "category": "Medical",
+      "courses": ["MBBS", "MD", "MS", "DM"],
+      "logo": "https://via.placeholder.com/150",
+      "overview": "A reputed medical college affiliated to the University of Delhi offering a wide range of UG and PG courses.",
+      "coursesAndFees": [
+        {
+          "name": "MBBS",
+          "duration": "5.5 Years",
+          "totalFees": "₹11,000",
+          "seats": 250,
+          "level": "UG"
+        }
+      ],
+      "placements": {
+        "averagePackage": "₹5 LPA",
+        "graduationPercentage": {
+          "ug": [90, 91, 93, 94],
+          "pg": [89, 90, 92, 91],
+          "years": [2019, 2020, 2021, 2022]
+        }
+      },
+      "amenities": ["Library", "Hostel", "Labs", "Sports"],
+      "cutoff": {
+        "mbbs": "97 percentile"
+      },
+      "faculty": {
+        "total": 300,
+        "studentRatio": "1:11"
+      }
+    },
+    {
+      "id": 4,
+      "name": "Government Dental College and Hospital, Mumbai",
+      "slug": "government-dental-college-mumbai",
+      "ownership": "Government",
+      "established": "1938",
+      "state": "Maharashtra",
+      "city": "Mumbai",
+      "category": "Dental",
+      "courses": ["BDS", "MDS"],
+      "logo": "https://via.placeholder.com/150",
+      "overview": "India’s first dental college and one of the top-ranking institutes for dental education and research.",
+      "coursesAndFees": [
+        {
+          "name": "BDS",
+          "duration": "5 Years",
+          "totalFees": "₹1,00,000",
+          "seats": 100,
+          "level": "UG"
+        }
+      ],
+      "placements": {
+        "averagePackage": "₹3.5 LPA"
+      },
+      "amenities": ["Library", "Labs", "Dental Hospital", "Hostel"],
+      "cutoff": {
+        "bds": "90 percentile"
+      },
+      "faculty": {
+        "total": 120,
+        "studentRatio": "1:7"
+      }
+    },
+    {
+      "id": 5,
+      "name": "National Institute of Pharmaceutical Education and Research, Mohali",
+      "slug": "niper-mohali",
+      "ownership": "Government",
+      "established": "1998",
+      "state": "Punjab",
+      "city": "Mohali",
+      "category": "Pharma",
+      "courses": ["MPharm", "PhD"],
+      "logo": "https://via.placeholder.com/150",
+      "overview": "NIPER Mohali is India's leading pharma research and training institute under the Department of Pharmaceuticals.",
+      "coursesAndFees": [
+        {
+          "name": "MPharm",
+          "duration": "2 Years",
+          "totalFees": "₹90,000",
+          "seats": 200,
+          "level": "PG"
+        }
+      ],
+      "placements": {
+        "averagePackage": "₹6 LPA"
+      },
+      "amenities": ["Library", "Labs", "Research Centers", "Hostel"],
+      "faculty": {
+        "total": 150,
+        "studentRatio": "1:12"
+      }
+    },
+    {
+      "id": 6,
+      "name": "SRM Medical College Hospital and Research Centre",
+      "slug": "srm-medical-college-chennai",
+      "ownership": "Private",
+      "established": "2005",
+      "state": "Tamil Nadu",
+      "city": "Chennai",
+      "category": "Medical",
+      "courses": ["MBBS", "MD", "MS"],
+      "logo": "https://via.placeholder.com/150",
+      "overview": "A top-ranked private medical college in South India offering UG & PG medical programs.",
+      "coursesAndFees": [
+        {
+          "name": "MBBS",
+          "duration": "5.5 Years",
+          "totalFees": "₹22,00,000",
+          "seats": 150,
+          "level": "UG"
+        }
+      ],
+      "placements": {
+        "averagePackage": "₹5 LPA"
+      },
+      "amenities": ["Library", "Hostel", "Hospital", "Labs", "Sports"],
+      "faculty": {
+        "total": 220,
+        "studentRatio": "1:9"
+      }
+    },
+    {
+      "id": 7,
+      "name": "DY Patil University School of Dentistry, Navi Mumbai",
+      "slug": "dy-patil-dental-college",
+      "ownership": "Private",
+      "established": "2000",
+      "state": "Maharashtra",
+      "city": "Navi Mumbai",
+      "category": "Dental",
+      "courses": ["BDS", "MDS"],
+      "logo": "https://via.placeholder.com/150",
+      "overview": "A premier private dental college known for modern infrastructure and experienced faculty.",
+      "coursesAndFees": [
+        {
+          "name": "BDS",
+          "duration": "5 Years",
+          "totalFees": "₹5,00,000",
+          "seats": 100,
+          "level": "UG"
+        }
+      ],
+      "placements": {
+        "averagePackage": "₹4 LPA"
+      },
+      "faculty": {
+        "total": 100,
+        "studentRatio": "1:10"
+      },
+      "amenities": ["Dental Hospital", "Labs", "Library", "Hostel"]
+    },
+    {
+      "id": 8,
+      "name": "Manipal College of Pharmaceutical Sciences",
+      "slug": "manipal-pharma-college",
+      "ownership": "Private",
+      "established": "1963",
+      "state": "Karnataka",
+      "city": "Manipal",
+      "category": "Pharma",
+      "courses": ["BPharm", "MPharm", "PharmD", "PhD"],
+      "logo": "https://via.placeholder.com/150",
+      "overview": "One of the oldest and most prestigious private pharma colleges in India, part of Manipal Academy.",
+      "coursesAndFees": [
+        {
+          "name": "BPharm",
+          "duration": "4 Years",
+          "totalFees": "₹7,60,000",
+          "seats": 180,
+          "level": "UG"
+        }
+      ],
+      "placements": {
+        "averagePackage": "₹4.5 LPA"
+      },
+      "faculty": {
+        "total": 160,
+        "studentRatio": "1:12"
+      },
+      "amenities": ["Research Labs", "Library", "Hostel", "Innovation Labs"]
+    },
+    {
+      "id": 9,
+      "name": "Amrita School of Medicine, Kochi",
+      "slug": "amrita-school-of-medicine",
+      "ownership": "Private",
+      "established": "2002",
+      "state": "Kerala",
+      "city": "Kochi",
+      "category": "Medical",
+      "courses": ["MBBS", "MD", "MS"],
+      "logo": "https://via.placeholder.com/150",
+      "overview": "Part of Amrita Vishwa Vidyapeetham, the school provides excellent education in healthcare and research.",
+      "coursesAndFees": [
+        {
+          "name": "MBBS",
+          "duration": "5.5 Years",
+          "totalFees": "₹20,00,000",
+          "seats": 150,
+          "level": "UG"
+        }
+      ],
+      "placements": {
+        "averagePackage": "₹6 LPA"
+      },
+      "faculty": {
+        "total": 210,
+        "studentRatio": "1:8"
+      },
+      "amenities": ["Hostel", "Hospital", "Research Center", "Labs"]
+    },
+    {
+      "id": 10,
+      "name": "Bharati Vidyapeeth College of Pharmacy, Pune",
+      "slug": "bharati-vidyapeeth-pharma",
+      "ownership": "Private",
+      "established": "1981",
+      "state": "Maharashtra",
+      "city": "Pune",
+      "category": "Pharma",
+      "courses": ["BPharm", "MPharm", "PharmD"],
+      "logo": "https://via.placeholder.com/150",
+      "overview": "Renowned for its pharmaceutical education and industry-aligned curriculum.",
+      "coursesAndFees": [
+        {
+          "name": "BPharm",
+          "duration": "4 Years",
+          "totalFees": "₹6,20,000",
+          "seats": 120,
+          "level": "UG"
+        }
+      ],
+      "placements": {
+        "averagePackage": "₹3.8 LPA"
+      },
+      "faculty": {
+        "total": 140,
+        "studentRatio": "1:11"
+      },
+      "amenities": ["Labs", "Library", "Hostel", "Seminar Halls"]
+    }
+  ]
+}
