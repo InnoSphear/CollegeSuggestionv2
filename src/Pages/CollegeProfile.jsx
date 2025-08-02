@@ -98,7 +98,7 @@ const CollegeProfile = () => {
   if (!college) return null;
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-gray-50 min-h-screen mt-24">
       {/* Header with college image */}
       <div className="relative bg-gradient-to-r from-indigo-900 to-indigo-700 h-48 md:h-64 w-full">
         <div className="absolute inset-0 bg-black opacity-30"></div>
