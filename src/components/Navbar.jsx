@@ -315,11 +315,11 @@ const Navbar = () => {
                 Sign In
               </Link>
               <Link
-                to="/signup"
+                to="/admin"
                 className="bg-blue-600 text-white px-4 py-3 rounded-md text-center hover:bg-blue-700 transition font-medium shadow-sm"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Sign Up
+                Admin Temp
               </Link>
             </div>
           </div>
