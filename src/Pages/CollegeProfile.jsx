@@ -106,7 +106,7 @@ const CollegeProfile = () => {
           <div className="text-white">
             <h1 className="text-3xl md:text-4xl font-bold">{college.name}</h1>
             <div className="mt-3 flex flex-wrap items-center gap-3">
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-white bg-opacity-20 backdrop-blur-sm">
+              <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-white text-blue bg-opacity-20 backdrop-blur-sm">
                 {college.ownership}
               </span>
               <span className="flex items-center text-sm md:text-base">
