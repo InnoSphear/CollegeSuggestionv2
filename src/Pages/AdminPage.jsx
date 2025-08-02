@@ -13,15 +13,25 @@ const AdminPage = () => {
     state: "",
     city: "",
     category: "",
-    courses: "",
+    courses: [],
     logo: "",
     overview: "",
-    coursesAndFees: "",
-    amenities: "",
+    coursesAndFees: [],
+    placements: {
+      averagePackage: "",
+      graduationPercentage: {
+        ug: [],
+        pg: [],
+        years: []
+      }
+    },
+    amenities: [],
     cutoff: {
       mbbs: "",
       md: "",
-      bds: ""
+      bds: "",
+      mds: "",
+      mpharm: ""
     },
     faculty: {
       total: "",
@@ -59,22 +69,48 @@ const AdminPage = () => {
     
     if (name === "name") {
       setFormData(prev => ({ ...prev, name: value, slug: generateSlug(value) }));
+    } else if (name.startsWith("placements.")) {
+      const [_, field] = name.split(".");
+      setFormData(prev => ({
+        ...prev,
+        placements: {
+          ...prev.placements,
+          [field]: value
+        }
+      }));
     } else if (name.startsWith("cutoff.")) {
-      const cutoffField = name.split(".")[1];
+      const [_, field] = name.split(".");
       setFormData(prev => ({
         ...prev,
         cutoff: {
           ...prev.cutoff,
-          [cutoffField]: value
+          [field]: value
         }
       }));
     } else if (name.startsWith("faculty.")) {
-      const facultyField = name.split(".")[1];
+      const [_, field] = name.split(".");
       setFormData(prev => ({
         ...prev,
         faculty: {
           ...prev.faculty,
-          [facultyField]: value
+          [field]: value
+        }
+      }));
+    } else if (name === "courses" || name === "amenities") {
+      setFormData(prev => ({
+        ...prev,
+        [name]: value.split(",").map(item => item.trim())
+      }));
+    } else if (name === "graduationPercentage.ug" || name === "graduationPercentage.pg" || name === "graduationPercentage.years") {
+      const [_, field] = name.split(".");
+      setFormData(prev => ({
+        ...prev,
+        placements: {
+          ...prev.placements,
+          graduationPercentage: {
+            ...prev.placements.graduationPercentage,
+            [field]: value.split(",").map(item => parseFloat(item.trim()))
+          }
         }
       }));
     } else {
@@ -82,17 +118,42 @@ const AdminPage = () => {
     }
   };
 
+  const handleCourseFeeChange = (index, field, value) => {
+    const updatedCoursesAndFees = [...formData.coursesAndFees];
+    updatedCoursesAndFees[index] = {
+      ...updatedCoursesAndFees[index],
+      [field]: field === "seats" ? parseInt(value) : value
+    };
+    setFormData(prev => ({
+      ...prev,
+      coursesAndFees: updatedCoursesAndFees
+    }));
+  };
+
+  const addCourseFee = () => {
+    setFormData(prev => ({
+      ...prev,
+      coursesAndFees: [
+        ...prev.coursesAndFees,
+        { name: "", duration: "", totalFees: "", seats: "", level: "" }
+      ]
+    }));
+  };
+
+  const removeCourseFee = (index) => {
+    const updatedCoursesAndFees = [...formData.coursesAndFees];
+    updatedCoursesAndFees.splice(index, 1);
+    setFormData(prev => ({
+      ...prev,
+      coursesAndFees: updatedCoursesAndFees
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const payload = {
       ...formData,
       id: parseInt(formData.id),
-      courses: formData.courses.split(",").map(c => c.trim()),
-      amenities: formData.amenities.split(",").map(a => a.trim()),
-      coursesAndFees: formData.coursesAndFees.split(",").map(cf => {
-        const [name, duration, totalFees, seats, level] = cf.split("|").map(item => item.trim());
-        return { name, duration, totalFees, seats: parseInt(seats), level };
-      }),
       faculty: {
         total: parseInt(formData.faculty.total),
         studentRatio: formData.faculty.studentRatio
@@ -105,31 +166,7 @@ const AdminPage = () => {
       } else {
         await axios.post(`${BASE_URL}`, payload);
       }
-      setFormData({
-        id: "",
-        name: "",
-        slug: "",
-        ownership: "",
-        established: "",
-        state: "",
-        city: "",
-        category: "",
-        courses: "",
-        logo: "",
-        overview: "",
-        coursesAndFees: "",
-        amenities: "",
-        cutoff: {
-          mbbs: "",
-          md: "",
-          bds: ""
-        },
-        faculty: {
-          total: "",
-          studentRatio: ""
-        }
-      });
-      setEditingId(null);
+      resetForm();
       fetchColleges();
     } catch (err) {
       console.error("Error submitting college:", err);
@@ -137,14 +174,65 @@ const AdminPage = () => {
     }
   };
 
+  const resetForm = () => {
+    setFormData({
+      id: "",
+      name: "",
+      slug: "",
+      ownership: "",
+      established: "",
+      state: "",
+      city: "",
+      category: "",
+      courses: [],
+      logo: "",
+      overview: "",
+      coursesAndFees: [],
+      placements: {
+        averagePackage: "",
+        graduationPercentage: {
+          ug: [],
+          pg: [],
+          years: []
+        }
+      },
+      amenities: [],
+      cutoff: {
+        mbbs: "",
+        md: "",
+        bds: "",
+        mds: "",
+        mpharm: ""
+      },
+      faculty: {
+        total: "",
+        studentRatio: ""
+      }
+    });
+    setEditingId(null);
+  };
+
   const handleEdit = (college) => {
     setFormData({
       ...college,
-      courses: (college.courses || []).join(", "),
-      amenities: (college.amenities || []).join(", "),
-      coursesAndFees: (college.coursesAndFees || []).map(cf => 
-        `${cf.name}|${cf.duration}|${cf.totalFees}|${cf.seats}|${cf.level}`
-      ).join(", "),
+      courses: college.courses || [],
+      amenities: college.amenities || [],
+      coursesAndFees: college.coursesAndFees || [],
+      placements: college.placements || {
+        averagePackage: "",
+        graduationPercentage: {
+          ug: [],
+          pg: [],
+          years: []
+        }
+      },
+      cutoff: college.cutoff || {
+        mbbs: "",
+        md: "",
+        bds: "",
+        mds: "",
+        mpharm: ""
+      },
       faculty: {
         total: college.faculty?.total?.toString() || "",
         studentRatio: college.faculty?.studentRatio || ""
@@ -268,6 +356,7 @@ const AdminPage = () => {
               value={formData.established}
               onChange={handleChange}
               className="border p-2"
+              required
             />
             <input
               name="state"
@@ -275,6 +364,7 @@ const AdminPage = () => {
               value={formData.state}
               onChange={handleChange}
               className="border p-2"
+              required
             />
             <input
               name="city"
@@ -282,70 +372,141 @@ const AdminPage = () => {
               value={formData.city}
               onChange={handleChange}
               className="border p-2"
+              required
             />
-            <input
+            <select
               name="category"
-              placeholder="Category"
               value={formData.category}
               onChange={handleChange}
               className="border p-2"
-            />
+              required
+            >
+              <option value="">Select Category</option>
+              <option value="Medical">Medical</option>
+              <option value="Dental">Dental</option>
+              <option value="Pharma">Pharma</option>
+            </select>
           </div>
         </div>
 
-        {/* Courses & Amenities */}
+        {/* Courses */}
         <div className="md:col-span-2">
-          <h3 className="text-lg font-semibold mb-2">Courses & Amenities</h3>
+          <h3 className="text-lg font-semibold mb-2">Courses</h3>
+          <input
+            name="courses"
+            placeholder="Courses (comma separated)"
+            value={formData.courses.join(", ")}
+            onChange={handleChange}
+            className="border p-2 w-full"
+          />
+        </div>
+
+        {/* Courses & Fees */}
+        <div className="md:col-span-2">
+          <h3 className="text-lg font-semibold mb-2">Courses & Fees</h3>
+          <div className="space-y-4">
+            {formData.coursesAndFees.map((course, index) => (
+              <div key={index} className="grid grid-cols-1 md:grid-cols-6 gap-2 items-end">
+                <input
+                  placeholder="Course Name"
+                  value={course.name}
+                  onChange={(e) => handleCourseFeeChange(index, "name", e.target.value)}
+                  className="border p-2"
+                />
+                <input
+                  placeholder="Duration"
+                  value={course.duration}
+                  onChange={(e) => handleCourseFeeChange(index, "duration", e.target.value)}
+                  className="border p-2"
+                />
+                <input
+                  placeholder="Total Fees"
+                  value={course.totalFees}
+                  onChange={(e) => handleCourseFeeChange(index, "totalFees", e.target.value)}
+                  className="border p-2"
+                />
+                <input
+                  placeholder="Seats"
+                  type="number"
+                  value={course.seats}
+                  onChange={(e) => handleCourseFeeChange(index, "seats", e.target.value)}
+                  className="border p-2"
+                />
+                <select
+                  value={course.level}
+                  onChange={(e) => handleCourseFeeChange(index, "level", e.target.value)}
+                  className="border p-2"
+                >
+                  <option value="">Select Level</option>
+                  <option value="UG">UG</option>
+                  <option value="PG">PG</option>
+                </select>
+                <button
+                  type="button"
+                  onClick={() => removeCourseFee(index)}
+                  className="bg-red-500 text-white p-2 rounded"
+                >
+                  Remove
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={addCourseFee}
+              className="bg-green-500 text-white px-4 py-2 rounded"
+            >
+              Add Course & Fee
+            </button>
+          </div>
+        </div>
+
+        {/* Placements */}
+        <div className="md:col-span-2">
+          <h3 className="text-lg font-semibold mb-2">Placements</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <input
-              name="courses"
-              placeholder="Courses (comma separated)"
-              value={formData.courses}
+              name="placements.averagePackage"
+              placeholder="Average Package"
+              value={formData.placements.averagePackage}
               onChange={handleChange}
               className="border p-2"
             />
-            <input
-              name="amenities"
-              placeholder="Amenities (comma separated)"
-              value={formData.amenities}
-              onChange={handleChange}
-              className="border p-2"
-            />
-            <div className="md:col-span-2">
-              <textarea
-                name="coursesAndFees"
-                placeholder="Courses & Fees (format: name|duration|fees|seats|level, separated by commas)"
-                value={formData.coursesAndFees}
+            <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-4">
+              <input
+                name="graduationPercentage.ug"
+                placeholder="UG % (comma separated)"
+                value={formData.placements.graduationPercentage.ug.join(", ")}
                 onChange={handleChange}
-                className="border p-2 w-full"
-                rows={3}
+                className="border p-2"
+              />
+              <input
+                name="graduationPercentage.pg"
+                placeholder="PG % (comma separated)"
+                value={formData.placements.graduationPercentage.pg.join(", ")}
+                onChange={handleChange}
+                className="border p-2"
+              />
+              <input
+                name="graduationPercentage.years"
+                placeholder="Years (comma separated)"
+                value={formData.placements.graduationPercentage.years.join(", ")}
+                onChange={handleChange}
+                className="border p-2"
               />
             </div>
           </div>
         </div>
 
-        {/* Media & Overview */}
+        {/* Amenities */}
         <div className="md:col-span-2">
-          <h3 className="text-lg font-semibold mb-2">Media & Overview</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input
-              name="logo"
-              placeholder="Logo URL"
-              value={formData.logo}
-              onChange={handleChange}
-              className="border p-2"
-            />
-            <div className="md:col-span-2">
-              <textarea
-                name="overview"
-                placeholder="Overview"
-                value={formData.overview}
-                onChange={handleChange}
-                className="border p-2 w-full"
-                rows={3}
-              />
-            </div>
-          </div>
+          <h3 className="text-lg font-semibold mb-2">Amenities</h3>
+          <input
+            name="amenities"
+            placeholder="Amenities (comma separated)"
+            value={formData.amenities.join(", ")}
+            onChange={handleChange}
+            className="border p-2 w-full"
+          />
         </div>
 
         {/* Cutoff */}
@@ -373,6 +534,20 @@ const AdminPage = () => {
               onChange={handleChange}
               className="border p-2"
             />
+            <input
+              name="cutoff.mds"
+              placeholder="MDS Cutoff"
+              value={formData.cutoff.mds}
+              onChange={handleChange}
+              className="border p-2"
+            />
+            <input
+              name="cutoff.mpharm"
+              placeholder="MPharm Cutoff"
+              value={formData.cutoff.mpharm}
+              onChange={handleChange}
+              className="border p-2"
+            />
           </div>
         </div>
 
@@ -390,7 +565,7 @@ const AdminPage = () => {
             />
             <input
               name="faculty.studentRatio"
-              placeholder="Student Ratio"
+              placeholder="Student Ratio (e.g., 1:8)"
               value={formData.faculty.studentRatio}
               onChange={handleChange}
               className="border p-2"
@@ -398,12 +573,45 @@ const AdminPage = () => {
           </div>
         </div>
 
-        <button
-          type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded col-span-1 md:col-span-2"
-        >
-          {editingId ? "Update College" : "Add College"}
-        </button>
+        {/* Media & Overview */}
+        <div className="md:col-span-2">
+          <h3 className="text-lg font-semibold mb-2">Media & Overview</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <input
+              name="logo"
+              placeholder="Logo URL"
+              value={formData.logo}
+              onChange={handleChange}
+              className="border p-2"
+            />
+            <div className="md:col-span-2">
+              <textarea
+                name="overview"
+                placeholder="Overview"
+                value={formData.overview}
+                onChange={handleChange}
+                className="border p-2 w-full"
+                rows={4}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="md:col-span-2 flex justify-between">
+          <button
+            type="button"
+            onClick={resetForm}
+            className="bg-gray-500 text-white px-4 py-2 rounded"
+          >
+            Reset
+          </button>
+          <button
+            type="submit"
+            className="bg-blue-600 text-white px-4 py-2 rounded"
+          >
+            {editingId ? "Update College" : "Add College"}
+          </button>
+        </div>
       </form>
 
       <div className="bg-white p-6 rounded-lg shadow">
@@ -411,40 +619,45 @@ const AdminPage = () => {
         {colleges.length === 0 ? (
           <p>No colleges found.</p>
         ) : (
-          <ul className="space-y-4">
-            {colleges.map((college) => (
-              <li
-                key={college._id}
-                className="border p-4 rounded shadow flex flex-col md:flex-row justify-between gap-4"
-              >
-                <div>
-                  <h3 className="text-xl font-bold">{college.name}</h3>
-                  <p className="text-sm text-gray-500">ID: {college.id} | Slug: {college.slug}</p>
-                  <p className="text-sm text-gray-700">{college.overview}</p>
-                  <p className="text-sm">City: {college.city}, State: {college.state}</p>
-                  <p className="text-sm">Courses: {(college.courses || []).join(", ")}</p>
-                  <p className="text-sm">MBBS Cutoff: {college.cutoff?.mbbs || 'N/A'}</p>
-                  {college.logo && (
-                    <img src={college.logo} alt={college.name} className="w-32 mt-2 rounded" />
-                  )}
-                </div>
-                <div className="flex flex-col gap-2">
-                  <button
-                    className="bg-yellow-500 text-white px-3 py-1 rounded"
-                    onClick={() => handleEdit(college)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="bg-red-600 text-white px-3 py-1 rounded"
-                    onClick={() => handleDelete(college.id)}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-white">
+              <thead>
+                <tr className="bg-gray-100">
+                  <th className="py-2 px-4 border">ID</th>
+                  <th className="py-2 px-4 border">Name</th>
+                  <th className="py-2 px-4 border">Category</th>
+                  <th className="py-2 px-4 border">City</th>
+                  <th className="py-2 px-4 border">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {colleges.map((college) => (
+                  <tr key={college.id} className="border-t">
+                    <td className="py-2 px-4 border">{college.id}</td>
+                    <td className="py-2 px-4 border">{college.name}</td>
+                    <td className="py-2 px-4 border">{college.category}</td>
+                    <td className="py-2 px-4 border">{college.city}</td>
+                    <td className="py-2 px-4 border">
+                      <div className="flex space-x-2">
+                        <button
+                          className="bg-yellow-500 text-white px-3 py-1 rounded"
+                          onClick={() => handleEdit(college)}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          className="bg-red-600 text-white px-3 py-1 rounded"
+                          onClick={() => handleDelete(college.id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
     </div>
